@@ -16,6 +16,8 @@
     
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --container-max: 1400px;
+    --container-padding: clamp(1rem, 5vw, 3rem);
 }
 
 * {
@@ -93,12 +95,19 @@ body:hover .cursor-outline {
     left: 0;
     width: 100%;
     padding: 1.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: block;
     z-index: 1000;
     transition: all 0.4s var(--transition-smooth);
     background: transparent;
+}
+
+.nav-inner {
+    width: min(100%, var(--container-max));
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
 }
 
 .nav.scrolled {
@@ -180,6 +189,10 @@ body:hover .cursor-outline {
     gap: 6px;
     cursor: pointer;
     z-index: 1001;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
 }
 
 .nav-toggle span {
@@ -543,21 +556,16 @@ section {
 .image-placeholder {
     width: 100%;
     aspect-ratio: 1;
-    background: linear-gradient(135deg, var(--gray) 0%, var(--dark) 100%);
     border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
     z-index: 1;
-}
-
-.image-placeholder span {
-    font-family: var(--font-display);
-    font-size: 4rem;
-    font-weight: 800;
-    color: var(--primary);
-    opacity: 0.5;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.75) 0%, rgba(10, 10, 10, 0.2) 100%),
+        url("ChatGPT Image Mar 8, 2026, 09_03_26 AM.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .image-border {

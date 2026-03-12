@@ -120,14 +120,20 @@
             right: 0;
             z-index: 1000;
             padding: var(--space-md) var(--container-padding);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--color-border);
             transition: all var(--transition-base);
+        }
+
+        .nav-inner {
+            width: min(100%, var(--container-max));
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-md);
         }
 
         .nav-logo {
@@ -197,6 +203,10 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            background: transparent;
+            border: none;
+            padding: 0;
+            font: inherit;
         }
 
         .nav-toggle span {
@@ -216,8 +226,8 @@
             transform: translateY(-11px) rotate(-45deg);
         }
 
-        /* Desktop Navigation */
-        @media (min-width: 1024px) {
+        /* Tablet & Desktop Navigation */
+        @media (min-width: 768px) {
             .nav-toggle {
                 display: none;
             }
@@ -583,18 +593,15 @@
         .image-placeholder {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--color-surface-light) 0%, var(--color-surface) 100%);
             border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(4rem, 15vw, 8rem);
-            font-weight: 800;
-            color: var(--color-accent);
             position: relative;
             overflow: hidden;
             border: 1px solid var(--color-border);
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.75) 0%, rgba(10, 10, 10, 0.1) 100%),
+                url("ChatGPT Image Mar 8, 2026, 09_03_26 AM.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .image-placeholder::before {
@@ -1306,21 +1313,23 @@
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-logo">OS.</div>
-        <div class="nav-links" id="navLinks">
-            <a href="#home" class="nav-link">Home</a>
-            <a href="#about" class="nav-link">About</a>
-            <a href="#skills" class="nav-link">Skills</a>
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#contact" class="nav-link">Contact</a>
-        </div>
-        <div class="nav-toggle" id="navToggle">
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+      <!-- Navigation -->
+      <nav class="nav">
+          <div class="nav-inner">
+              <a href="#home" class="nav-logo">OS.</a>
+              <div class="nav-links" id="navLinks" role="navigation" aria-label="Primary">
+                  <a href="#home" class="nav-link">Home</a>
+                  <a href="#about" class="nav-link">About</a>
+                  <a href="#skills" class="nav-link">Skills</a>
+                  <a href="#projects" class="nav-link">Projects</a>
+                  <a href="#contact" class="nav-link">Contact</a>
+              </div>
+              <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">
+                  <span></span>
+                  <span></span>
+              </button>
+          </div>
+      </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -1375,14 +1384,12 @@
             </div>
             
             <div class="about-grid">
-                <div class="about-image">
-                    <div class="image-wrapper">
-                        <div class="image-placeholder">
-                            <span>OS</span>
+                    <div class="about-image">
+                        <div class="image-wrapper">
+                            <div class="image-placeholder" role="img" aria-label="Portrait of Odhiambo Seth"></div>
+                            <div class="image-border"></div>
                         </div>
-                        <div class="image-border"></div>
                     </div>
-                </div>
                 
                 <div class="about-content">
                     <h3 class="about-subtitle">The Journey So Far</h3>
@@ -1712,10 +1719,18 @@
         const navToggle = document.getElementById('navToggle');
         const navLinks = document.getElementById('navLinks');
         
+        const updateNavToggleState = () => {
+            const expanded = navLinks.classList.contains('active');
+            navToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        };
+
+        updateNavToggleState();
+
         navToggle.addEventListener('click', () => {
             navToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
             document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            updateNavToggleState();
         });
 
         // Close mobile menu when clicking on a link
@@ -1724,6 +1739,7 @@
                 navToggle.classList.remove('active');
                 navLinks.classList.remove('active');
                 document.body.style.overflow = '';
+                updateNavToggleState();
             });
         });
 

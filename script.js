@@ -54,9 +54,17 @@ window.addEventListener('scroll', () => {
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 
+const updateNavToggleState = () => {
+    const expanded = navLinks.classList.contains('active');
+    navToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+};
+
+updateNavToggleState();
+
 navToggle.addEventListener('click', () => {
     navToggle.classList.toggle('active');
     navLinks.classList.toggle('active');
+    updateNavToggleState();
 });
 
 // Close mobile menu when clicking a link
@@ -64,6 +72,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
         navToggle.classList.remove('active');
         navLinks.classList.remove('active');
+        updateNavToggleState();
     });
 });
 
